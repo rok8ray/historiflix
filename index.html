@@ -1,0 +1,454 @@
+<!doctype html>
+<html>
+<head>
+<title>Historiflix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Young+Serif&display=swap" rel="stylesheet">
+<style>
+    br {
+      user-select: none;
+    }
+	 body {
+      background-color: black;
+      margin: 0px;
+      font-family: "Montserrat";
+      color: white;
+    }
+    .audio {
+      display: none;
+    }
+   	.placeholder {
+    	color: red
+    }
+    .homeScreen {
+      z-index: 50;
+      background-color: black;
+      position: absolute;
+      width: 100%;
+      height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+      color: white;
+    }
+    .showCover {
+      background-color: black; 
+      position: absolute;
+      z-index: 51;
+      width: 100%;
+      height: 100vh;
+      display: none;
+      margin: 0px;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    .headerBar {
+      z-index: 99;
+      position: absolute;
+      display: flex;
+      flex-direction: row; 
+      align-items: center;  
+      justify-content: flex-start; 
+      gap: 20px;
+      user-select: none;
+    }
+    .showsContainer {
+      display: flex;
+      flex-direction: row; 
+      align-items: center;  
+      justify-content: flex-start; 
+      gap: 20px;
+    }
+    .britsContainer {
+      display: flex;
+      flex-direction: row; 
+      align-items: center;  
+      justify-content: flex-start; 
+      gap: 20px;
+    }
+    .nativesContainer {
+      display: flex;
+      flex-direction: row; 
+      align-items: center;  
+      justify-content: flex-start; 
+      gap: 20px;
+    }
+    .headerBarOptions {
+      display: inline-block;
+      cursor: pointer;
+    }
+    .headerBarOptions:hover {
+      font-weight: bold;
+    }
+    .imageThumbnail {
+      margin: -20px;
+      z-index: -10;
+      text-align: center;
+      position: absolute;
+      width: 100%;
+      height: 625px;
+      object-fit: cover;
+      object-position: 70% 0%;
+    }
+    .logoScreen {
+      position: absolute;
+    	text-align: center;
+    	background-color: black;
+    	z-index: 100;
+    	width: 100%;
+    	height: 100vh;
+    }
+    .title {
+      font-size: 100px;
+      margin:0px;
+      font-family: "Young Serif";
+    }
+    .title2 {
+      font-size: 70px;
+      margin:0px;
+      font-family: "Young Serif";
+    }
+    .logo {
+      animation: glideDown 0.75s ease-out forwards;
+      width: 500px;
+      height: 150px;
+    }
+    .clickAnywhereTXT {
+      color: red;
+      animation: fadeIn 0.75s ease-out forwards;
+    }
+    .miniThumbnailShow {
+      display: inline-block;
+      height: auto;
+      width: 160px;
+    }
+    .playButton {
+      background-color: white;
+      font-weight: bold;
+      color: black;
+      border-radius: 10px;
+      width: 100px;
+      margin: 0px;
+      padding: 0px 0px 0px 10px;
+      gap: 10px;
+      display: flex;
+      flex-direction: row; 
+      align-items: center;  
+      justify-content: flex-start; 
+      vertical-align: middle;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .myListBTN {
+      background-color: gray;
+      font-weight: bold;
+      color: white;
+      border-radius: 10px;
+      width: 200px;
+      margin: 0px;
+      padding: 0px 0px 0px 10px;
+      gap: 10px;
+      display: flex;
+      flex-direction: row; 
+      align-items: center;  
+      justify-content: flex-start; 
+      vertical-align: middle;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .showCoverIMG {
+      border: 2px solid red;
+      width: 600px;
+      height: 600px;
+      object-fit: cover;
+      object-position: center;
+    }
+    @keyframes glideDown {
+        0% {
+            transform: translateY(-150%); /* Start above the screen */
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0); /* End at normal position */
+            opacity: 1;
+        }
+    }
+    .showCoverText {
+      display: inline-block;
+      width: 50%;
+      padding: 20px;
+    }
+    .showCoverThumbContainer {
+      display: inline-block;
+      width: 50%;
+    }
+    @keyframes fadeIn {
+      0% {
+        opacity: 0
+      }
+      100% {
+        opacity: 1
+      }
+    }
+    @keyframes fadeOut {
+      0% {
+        opacity: 1
+      }
+      100% {
+        opacity: 0
+      }
+    }
+    @keyframes glideIn {
+        0% {
+            transform: translateX(150%); /* Start above the screen */
+            opacity: 1;
+        }
+        100% {
+            transform: translateX(0); /* End at normal position */
+            opacity: 1;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="audio">
+<audio id="introSound" controls>
+  <source src="https://raw.githubusercontent.com/rok8ray/funnisounds/refs/heads/main/audio/netflix%20intro.mp3" type="audio/mpeg">
+</audio>
+</div>
+
+<div id="logoscreen" class="logoScreen" onclick="hideLogoScreen()">
+<br><br><br><br><br><br><br><br><br><br>
+<img src="https://i.postimg.cc/d1V9bV2D/historiflix-logo.png" class="logo">
+<br><br><br><br><br>
+<p class="clickAnywhereTXT">Click anywhere to open</p>
+</div>
+
+<div class="homeScreen">
+  <div class="headerBar">
+    <img src="https://i.postimg.cc/d1V9bV2D/historiflix-logo.png">
+    <p class="headerBarOptions"><b>Home</b></p>
+    <p class="headerBarOptions">TV Shows</p>
+    <p class="headerBarOptions">Movies</p>
+    <p class="headerBarOptions">National History Day</p>
+    <p class="headerBarOptions">My List</p>
+  </div>
+  <img class="imageThumbnail" src="https://socialstudieshelp.com/wp-content/uploads/2024/04/George-Washington-The-Making-of-an-American-Icon.webp">
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <h1 class="title">Washed Up</h1>
+  <br>
+  <p style="margin:0px">The story of how a once-great president fell to old age.</p>
+  <br>
+  <div style="display:inline-block;" class="playButton">
+    <p style="display:inline-block;">&#9654; Play</p>
+  </div>
+  <div style="display:inline-block;" class="myListBTN">
+    <p style="display:inline-block;">&#10010; Add To My List</p>
+  </div><br><br><br><br>
+  <p><b>Popular on Historiflix</b></p>
+  <div id="showsContainer" class="showsContainer">
+    
+  </div>
+  <p><b>Characters to Disapprove Of</b></p>
+  <div id="britsContainer" class="showsContainer">
+    
+  </div>
+  <p><b>Native History Month</b></p>
+  <div id="nativesContainer" class="showsContainer">
+    
+  </div>
+  <br><br><br>
+  <p>&copy; Historiflix belongs to Ms. Wizner and Ms. Watton. This site was created by Rayyan Zia. All rights reserved.</p><br>
+</div>
+
+<div id="showCover" class="showCover">
+  <div class="showCoverText" style="gap:20px;">
+    <h1 class="title2" id="titleSC" style="position: relative; top: 10%;">Dinat du du du</h1>
+    <p id="descSC" style="position: relative; top: 10%;">Da dum de dum de so</p>
+    <br>
+    <div class="playButton" style="position: relative; top: 10%; display: inline-block;">
+      <p>&#9654; Play</p>
+    </div>
+    <div onclick="hideShowCover()" class="playButton" style="position: relative; top: 10%; display: inline-block;">
+      <p>< Back</p>
+    </div>
+    <div style="position: relative; top: 10%; display: inline-block;" class="myListBTN">
+      <p style="display:inline-block;">&#10010; Add To My List</p>
+    </div>
+  </div>
+  <div class="showCoverThumbContainer" style="position: relative">
+    <img id="showCoverTHUMB" style="position: absolute; margin: -20px -20px -20px 10%; height: 100vh; width: auto;" src="https://placehold.co/600x600?text=If+you+see+this+go+play+deltarune+at+home&font=roboto">
+    <img style="position: absolute; margin: -20px; height: 100vh; width: 200px;" src="https://i.postimg.cc/ryCMmLYR/fade.png">
+  </div>
+</div>
+
+</body>
+</html>
+
+<script>
+const shows = [
+    {
+        "url": "https://i.postimg.cc/q7R7V86M/tumbnail.png",
+        "url2": "https://scetl.asu.edu/sites/g/files/litvpz501/files/mercy-otis-warren-and-american-revolution-WYR.jpeg",
+        "title": "Woman Of Works",
+        "by": "Jose Ruvalcaba",
+        "syn": "The story of Mercy Otis Warren."
+    },
+    {
+        "url": "https://i.postimg.cc/nV31KXX4/marydixonkies.png",
+        "url2": "https://www.davison.com/wp/wp-content/uploads/2013/05/Mary-Dixon-Kies-1.jpg",
+        "title": "Mary Dixon Kies",
+        "by": "Aubree Abfalder",
+        "syn": "The life of Mary Dixon Kies."
+    },
+    {
+        "url": "https://i.postimg.cc/VsZpCrJd/Gemini-Generated-Image-1tllw1tllw1tllw1.png",
+        "url2": "https://i.postimg.cc/htcBChjV/image.png",
+        "title": "All About Hamilton",
+        "by": "Christal Bunk-Kern",
+        "syn": "This series goes into depth about the legendary man, Alexander Hamilton."
+    },
+    {
+        "url": "https://i.postimg.cc/K8g9L1tR/thomas-jefferson.png",
+        "url2": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXcJ-ABMRH5XqjnLc3Miwlbe7OMhvM8VQ0PdVcA0vh2yRP3wU:https://assets2.titleleaf.com/abdopub/product/cover/xl_9781098294687_fc.jpg&s",
+        "title": "Thomas Jefferson",
+        "by": "Aditya Bagul",
+        "syn": "Thomas Jefferson was an extremely controversial leader of the United States, but also was extremely important. He wrote the Declaration of Independence, but approved of slavery."
+    },
+    {
+        "url": "https://i.postimg.cc/3R997mQV/Thomas-paine.png",
+        "url2": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2Zhdc1fcIiKB2mO_Lrk_1zdHjIcZhJob9xC7HIrvQ1ZyY-eJhy4xV6BMcj2N-IHRRKzkkSMiU0UiS3xLWGMyw11_zFKLE-RWsziTXJqw&s=10",
+        "title": "The Life of Thomas Paine",
+        "by": "Fiona Galligan",
+        "syn": "Thomas Paine was an extremely influential writer during the Early Republic and some may say he was part of the reason we were able to win the Revolutionary War. He wrote many pamphlets and articles to try to convince the patriots of America that fighting for your country was the lawful thing to do."
+    },
+    {
+        "url": "https://i.postimg.cc/3rS9cXB4/Lewis-and-clark.png",
+        "url2": "https://southwestmt.com/blog-content/2014/07/LewisandClark_thisismontana-968x1024.jpeg",
+        "title": "Two Men, One Continent",
+        "by": "Seanleander Hemanand",
+        "syn": "Lewis and Clark deserve a show because their expedition wasn’t just a journey across uncharted land. It was a fight of ambition, desire, and constant fear of the wilderness that could destroy everything they were achieving."
+    },
+];
+
+const brits = [
+	{
+        "url": "https://i.postimg.cc/4NYwkY2T/mad-king.pngs",
+        "url2": "https://www.thoughtco.com/thmb/psJOTW2odmw7JlQhfRHu0E6QD00=/3739x2819/filters:no_upscale():max_bytes(150000):strip_icc()/portrait-of-george-iii--king-of-great-britain-and-ireland-enthroned-517443000-5bf551074cedfd00264d7b13.jpg",
+        "title": "Mad King",
+        "by": "Molly Jacques",
+        "syn": "The evil King's motives are clearly explained throughout this series."
+    }
+]
+
+const natives = [
+	{
+        "url": "https://i.postimg.cc/1Xf0QdHg/black-hawk.png",
+        "url2": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVZyRruE59GGJiZmX5PYjHISjgkjY2VEgvypJHHRhZRXbVKzz5:https://www.bostonreview.net/wp-content/uploads/2022/10/Portrait_of_the_Eternal_Indian_Chief_Black_Hawk-e1646149957332.jpg",
+        "title": "The Hawk's Uprising",
+        "by": "Rayyan Zia",
+        "syn": "Black Hawk, a war leader, defends his land from the Americans."
+    },
+]
+
+document.body.style.overflow = "hidden";
+
+const introSound = document.getElementById("introSound");
+const logoscreenE = document.getElementById("logoscreen");
+const showsContainer = document.getElementById("showsContainer");
+const showCover = document.getElementById("showCover");
+
+const titleSC = document.getElementById("titleSC");
+const descSC = document.getElementById("descSC");
+const showCoverTHUMB = document.getElementById("showCoverTHUMB");
+
+function hideLogoScreen() {
+  introSound.play();
+  logoscreenE.style.animation = "fadeOut 0.35s ease-out forwards"
+  setTimeout(() => {
+    logoscreenE.style.display = "none"
+    document.body.style.overflow = "";
+  }, 750);
+}
+
+function loadShow(title, by, url2, syn) {
+  titleSC.textContent = title;
+  descSC.textContent = "By " + by + ". " + syn;
+  showCoverTHUMB.src = url2;
+  showCover.style.animation = "glideIn 0.35s ease-out forwards"
+}
+
+shows.forEach(item => {
+    const img = document.createElement('img');
+    // If URL is empty, use a placeholder
+    img.src = item.url || "https://placehold.co/600x400/EEE/31343C";
+    img.className = 'miniThumbnailShow';
+    img.style.cursor = "pointer";
+    
+    img.onclick = () => {
+      loadShow(item.title, item.by, item.url2, item.syn)
+      showCover.style.display = "flex";
+      window.scrollTo({ top: 0 });
+      document.body.style.overflow = "hidden";
+    };
+  
+    showsContainer.appendChild(img);
+});
+
+brits.forEach(item => {
+    const img = document.createElement('img');
+    // If URL is empty, use a placeholder
+    img.src = item.url || "https://placehold.co/600x400/EEE/31343C";
+    img.className = 'miniThumbnailShow';
+    img.style.cursor = "pointer";
+    
+    img.onclick = () => {
+      loadShow(item.title, item.by, item.url2, item.syn)
+      showCover.style.display = "flex";
+      window.scrollTo({ top: 0 });
+      document.body.style.overflow = "hidden";
+    };
+  
+    britsContainer.appendChild(img);
+});
+
+natives.forEach(item => {
+    const img = document.createElement('img');
+    // If URL is empty, use a placeholder
+    img.src = item.url || "https://placehold.co/600x400/EEE/31343C";
+    img.className = 'miniThumbnailShow';
+    img.style.cursor = "pointer";
+    
+    img.onclick = () => {
+      loadShow(item.title, item.by, item.url2, item.syn)
+      showCover.style.display = "flex";
+      window.scrollTo({ top: 0 });
+      document.body.style.overflow = "hidden";
+    };
+  
+    nativesContainer.appendChild(img);
+});
+
+function virus() {
+	window.alert("You got a virus. Womp womp");
+    document.documentElement.innerHTML = "<title>VIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUSVIRUS</title><h1>AHHAHAHHAHAHH IM INFECTING YOUR COMPUTER (refresh page)</h1>"
+}
+
+function hideShowCover() {
+  showCoverTHUMB.src = "https://placehold.co/600x600?text=Loading&font=roboto";
+  // showCover.style.display = "none";
+  window.scrollTo({ top: 0 });
+  document.body.style.overflow = "";
+  showCover.style.animation = "fadeOut 0.75s ease-out forwards"
+  setTimeout(() => {
+    showCover.style.display = "none"
+  }, 550);
+}
+
+</script>
+
+b
